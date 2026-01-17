@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Admin Dashboard</div>
+
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger-icon"></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/dashboard" class="nav-item active">Products</a>
+                <a href="/sales" class="nav-item">Sales</a>
+                <a href="/sales-history" class="nav-item">History</a>
+
+                <button id="logoutBtn" class="nav-btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">Overview</h1>
+            <p class="dashboard-subtitle">Manage products and monitor shopping progress.</p>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Complete Progress</h3>
+                <p class="summary-label">Total items sold</p>
+                <div class="summary-value" id="totalItemsSold">0</div>
+            </div>
+            <div class="summary-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3>Profit</h3>
+                    <select id="profitFilter" class="filtered-select">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">Last Week</option>
+                        <option value="month">Last Month</option>
+                    </select>
+                </div>
+
+                <div class="summary-value" id="totalProfit" style="color: #36e07a; font-size: 2.5rem;">₹0.00</div>
+                <p class="summary-label" id="profitLabel">Total Profit (All Time)</p>
+            </div>
+        </div>
+        <br>
+        <!-- Add / Edit Product Section -->
+        <section class="card">
+            <h2 class="card-title">Add Product</h2>
+            <form id="productForm" class="product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Name</label>
+                        <input type="text" id="productName" name="name" class="form-input" placeholder="Enter name">
+                        <div id="productNameError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please fill in
+                            this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">Category</label>
+                        <select id="productCategory" name="category" class="form-input">
+                            <option value="boys">Boys</option>
+                            <option value="girls">Girls</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="combo 1">Combo 1</option>
+                            <option value="combo 2">Combo 2</option>
+                            <option value="combo 3">Combo 3</option>
+                            <option value="combo 4">Combo 4</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productModel">Model</label>
+                        <input type="text" id="productModel" name="model" class="form-input" placeholder="Enter model">
+                        <div id="productModelError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please fill in
+                            this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productSize">Size</label>
+                        <select id="productSize" name="size" class="form-input">
+                            <option value="">Select Size</option>
+                            <optgroup label="Clothing">
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                                <option value="XXXL">XXXL</option>
+                            </optgroup>
+                            <option value="Free Size">Free Size</option>
+                        </select>
+                        <div id="productSizeError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please select a
+                            size</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">MRP (₹)</label>
+                        <input type="number" id="productPrice" name="price" class="form-input" step="0.01" min="0"
+                            placeholder="Enter MRP">
+                        <div id="productPriceError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please fill in
+                            this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCostPrice">Cost Price (₹)</label>
+                        <input type="number" id="productCostPrice" name="costPrice" class="form-input" step="0.01"
+                            min="0" placeholder="Enter cost per item">
+                        <div id="productCostPriceError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please fill in
+                            this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">Stock</label>
+                        <input type="number" id="productStock" name="stock" class="form-input" min="0"
+                            placeholder="Enter stock (No.)">
+                        <div id="productStockError" class="error-message"
+                            style="display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 5px;">Please fill in
+                            this field</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Save Product</button>
+                    <button type="button" id="resetBtn" class="btn btn-reset">Reset Form</button>
+                </div>
+            </form>
+        </section>
+
+
+
+
+
+        <!-- Products Section with Integrated Search -->
+        <section class="card" id="productsSection">
+            <h2 class="card-title">Products</h2>
+
+            <!-- Search & Filter Form -->
+            <div class="search-filter-container"
+                style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchName">Name</label>
+                        <input type="text" id="searchName" class="form-input" placeholder="Search name...">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchCategory">Category</label>
+                        <select id="searchCategory" class="form-input">
+                            <option value="">All Categories</option>
+                            <option value="boys">Boys</option>
+                            <option value="girls">Girls</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="combo 1">Combo 1</option>
+                            <option value="combo 2">Combo 2</option>
+                            <option value="combo 3">Combo 3</option>
+                            <option value="combo 4">Combo 4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchModel">Model</label>
+                        <input type="text" id="searchModel" class="form-input" placeholder="Search model...">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchSize">Size</label>
+                        <input type="text" id="searchSize" class="form-input" placeholder="Search size...">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="button" id="searchBtn" class="btn btn-save">Search</button>
+                    <button type="button" id="clearSearchBtn" class="btn btn-reset">Clear</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Model</th>
+                            <th>Size</th>
+                            <th>MRP(₹)</th>
+                            <th>Cost Price (₹)</th>
+                            <th>Stock</th>
+
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- Products will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <br>
+
+        <!-- Logout button moved to navbar -->
+
+
+    </main>
+
+    <script>
+        // Simple auth check - redirect to login if no token
+        if (!localStorage.getItem('demo_token')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-title">Confirm Delete</h3>
+            <p class="modal-text">Are you sure you want to delete this product? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDelete" class="btn btn-logout">Cancel</button>
+                <button id="confirmDelete" class="btn btn-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

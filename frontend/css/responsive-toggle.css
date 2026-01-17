@@ -1,0 +1,19 @@
+/* Responsive Category Display */
+
+/* Desktop / Default: Hide Mobile Elements */
+.mobile-only {
+    display: none !important;
+}
+
+/* Mobile: Show Mobile Elements, Hide Desktop Elements */
+@media (max-width: 768px) {
+    .mobile-only {
+        display: inline-block !important;
+        /* Force show inline badge */
+    }
+
+    .desktop-only {
+        display: none !important;
+        /* Hide separate column */
+    }
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales - Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Flatpickr Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+</head>
+
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Admin Dashboard</div>
+
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger-icon"></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/dashboard" class="nav-item">Products</a>
+                <a href="/sales" class="nav-item active">Sales</a>
+                <a href="/sales-history" class="nav-item">History</a>
+                <button id="logoutBtn" class="nav-btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">Sales</h1>
+            <p class="dashboard-subtitle">Record new sales transactions.</p>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+
+        <!-- Billing Section -->
+        <section class="card">
+            <h2 class="card-title">New Bill</h2>
+
+            <!-- 1. Customer Details -->
+            <div class="form-row"
+                style="margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
+                <div class="form-group">
+                    <label for="billCustomerName">Customer Name</label>
+                    <input type="text" id="billCustomerName" class="form-input" placeholder="Enter the name">
+                    <div id="customerNameError"
+                        style="color: #ff4d4d; font-size: 0.9rem; margin-top: 5px; display: none;">
+                        Please enter the customer name.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="billCustomerPhone">Phone Number</label>
+                    <input type="text" id="billCustomerPhone" class="form-input" placeholder="Optional" maxlength="10"
+                        pattern="\d{10}" title="Phone number must be exactly 10 digits">
+                </div>
+            </div>
+
+            <!-- 2. Add Item to Bill -->
+            <h3 style="margin-bottom: 15px; color: #a0a0a0; font-size: 1rem;">Add Items</h3>
+            <form id="addItemForm" class="product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="saleProduct">Product</label>
+                        <select id="saleProduct" class="form-input">
+                            <option value="">Select Product...</option>
+                        </select>
+                        <div id="productError"
+                            style="color: #ff4d4d; font-size: 0.9rem; margin-top: 5px; display: none;">
+                            Please select an item in the list.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="saleQuantity">Qty</label>
+                        <input type="number" id="saleQuantity" class="form-input" min="1" value="1" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="saleMRP">Unit Price (₹)</label>
+                        <input type="number" id="saleMRP" class="form-input" step="0.01" readonly>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="saleAmount">Total (₹)</label>
+                        <input type="number" id="saleAmount" class="form-input" step="0.01" readonly>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end;">
+                        <button type="submit" class="btn btn-save" style="width: 100%;">+ Add</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 3. Current Bill Table -->
+            <div style="margin-top: 25px;">
+                <h3 style="margin-bottom: 15px; color: #a0a0a0; font-size: 1rem;">Current Bill Items</h3>
+                <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #888;">No items in bill</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Bill Summary & Actions -->
+            <div
+                style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: flex-end; flex-direction: column;">
+                <div style="text-align: right; margin-bottom: 15px; font-size: 1.2rem;">
+                    <div style="margin-bottom: 5px;">Total: <span id="billTotalDisplay">₹0.00</span></div>
+                    <div
+                        style="margin-bottom: 10px; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                        <label style="font-size: 1rem;">Discount (₹):</label>
+                        <input type="number" id="billDiscount" class="form-input" style="width: 100px; padding: 5px;"
+                            value="0">
+                    </div>
+                    <div style="font-weight: bold; color: #4caf50; font-size: 1.5rem;">Grand Total: <span
+                            id="billGrandTotalDisplay">₹0.00</span></div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="clearBillBtn" class="btn btn-reset">Clear Bill</button>
+                    <button id="checkoutBtn" class="btn btn-save"
+                        style="padding: 10px 25px; font-size: 1.1rem;">Checkout & Save</button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="js/sales.js"></script>
+</body>
+
+</html>

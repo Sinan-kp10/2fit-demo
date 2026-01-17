@@ -1,0 +1,18 @@
+/* Sales History Footer Responsive */
+@media (max-width: 768px) {
+    .history-footer {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 16px;
+    }
+
+    .history-footer>div {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .history-footer .btn {
+        flex: 1;
+        padding: 10px;
+    }
+}

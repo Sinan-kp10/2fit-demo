@@ -1,0 +1,12 @@
+/* Responsive Price Alignment */
+.price-list-container {
+    text-align: left;
+    /* Desktop Default */
+}
+
+@media (max-width: 768px) {
+    .price-list-container {
+        text-align: right;
+        /* Mobile Align Right */
+    }
+}

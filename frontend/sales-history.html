@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Flatpickr Dark Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+</head>
+
+<body class="dashboard-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Admin Dashboard</div>
+
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger-icon"></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/dashboard" class="nav-item">Products</a>
+                <a href="/sales" class="nav-item">Sales</a>
+                <a href="/sales-history" class="nav-item active">History</a>
+                <button id="logoutBtn" class="nav-btn-logout">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">Sales History</h1>
+            <p class="dashboard-subtitle">View and manage past transactions.</p>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+
+        <!-- Sales Filter Section -->
+        <section class="card">
+            <h2 class="card-title">Transaction Log</h2>
+            <!-- Search & Filter Form -->
+            <div class="search-filter-container"
+                style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchName">Name</label>
+                        <input type="text" id="searchName" class="form-input"
+                            placeholder="Search customer or product...">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchDate">Date</label>
+                        <input type="date" id="searchDate" class="form-input" placeholder="Enter date">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top: 20px;">
+                    <button type="button" id="searchBtn" class="btn btn-save">Search</button>
+                    <button type="button" id="clearSearchBtn" class="btn btn-reset">Clear</button>
+                </div>
+                <br>
+                <div class="history-footer"
+                    style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 1.2rem; font-weight: bold; color: #e0e0e0;">
+                        Total Net Amount: <span id="totalSalesAmount" style="color: #4caf50;">₹0.00</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="deleteSelectedBtn" class="btn btn-delete"
+                            style="display: none; padding: 6px 12px; font-size: 12px;">Delete
+                            Selected</button>
+                        <button id="cancelSelectionBtn" class="btn btn-reset"
+                            style="display: none; padding: 6px 12px; font-size: 12px;">Cancel
+                            Selection</button>
+                        <button id="clearHistoryBtn" class="btn btn-delete"
+                            style="padding: 6px 12px; font-size: 12px;">Clear All History</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox" id="selectAllSales"></th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Product Name</th>
+                            <th class="desktop-only">Category</th>
+                            <th>NOs</th>
+                            <th>MRP (₹)</th>
+                            <th>Net amount</th>
+                            <th>Billed By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesTableBody">
+                        <!-- Sales will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+
+        </section>
+
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-title">Confirm Clear History</h3>
+            <p class="modal-text">Are you sure you want to delete ALL sales history? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDelete" class="btn btn-logout">Cancel</button>
+                <button id="confirmDelete" class="btn btn-delete">Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Delete Modal -->
+    <div id="bulkDeleteModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="modal-title">Delete Selected Items</h3>
+            <p class="modal-text" id="bulkDeleteMessage">Are you sure you want to delete the selected items?</p>
+            <div class="modal-actions">
+                <button id="cancelBulkDelete" class="btn btn-logout">Cancel</button>
+                <button id="confirmBulkDelete" class="btn btn-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="js/sales-history.js"></script>
+</body>
+
+</html>
